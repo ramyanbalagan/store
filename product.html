@@ -1,0 +1,158 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="./Js/modal.js"></script>
+    <link rel="stylesheet" href="./css/product.css" />
+    <link rel="stylesheet" href="./css/modal.css" />
+
+    <title>Product</title>
+  </head>
+  <body>
+    <div id="productPage"></div>
+
+    <!-- Modal structure -->
+    <div id="confirmationModal" class="modal">
+      <div class="modal-content">
+        <h2>Confirm to place your order!</h2>
+        <div class="modal-actions">
+          <button onclick="closeModel()" class="cartBtn">Cancel</button>
+          <button onclick="confirmModel()" class="confirm-btn">Confirm</button>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      $(document).ready(function () {
+        // Simulating skeleton loader with 12 dummy items
+        const dummyProducts = new Array(12).fill(null); // Array of 12 dummy elements
+
+        // Append skeleton loaders for each dummy product
+        $("#productPage").append(`
+                    <div class="skeleton">
+                        <div class="skeletonBanner"></div>
+                        
+                        <div class="skeletonImg"></div>
+                        <div class="skeleton-text"></div>
+                    </div>
+                `);
+        function getQueryParam(param) {
+          const urlParams = new URLSearchParams(window.location.search);
+          return urlParams.get(param);
+        }
+
+        // Get the 'id' parameter from the URL
+        const id = getQueryParam("id");
+        fetchProducts(id);
+      });
+
+      const modal = document.getElementById("confirmationModal");
+
+      function openModel() {
+        modal.style.display = "block";
+      }
+
+      function closeModel() {
+        modal.style.display = "none";
+      }
+
+      function confirmModel() {
+        alert("Order Placed!");
+        modal.style.display = "none";
+      }
+
+      function cartAction() {
+        alert("Item added to cart.");
+      }
+
+      // Close modal when user clicks outside of the modal content
+      window.addEventListener("click", (e) => {
+        if (e.target === modal) {
+          modal.style.display = "none";
+        }
+      });
+
+      function fetchProducts(id) {
+        $.ajax({
+          url: `https://dummyjson.com/products/${id}`, // Free API
+          method: "GET",
+          dataType: "json",
+          success: function (data) {
+            const product = data;
+            const productGrid = $("#productPage");
+            productGrid.empty(); // Remove skeletons
+
+            document.title = product.title;
+
+            const tagsHtml =
+              product.tags.length > 0
+                ? `
+                        <h6 class="tagTitle">Tags</h6>
+                        <div class="tags">
+                            ${product.tags
+                              .map(
+                                (item) => `
+                                <div class="tag">
+                                    <span>${item}</span>
+                                </div>
+                            `
+                              )
+                              .join("")}
+                        </div>
+                    `
+                : "";
+
+            const productHtml = `
+                            <div>
+                                <div class="productBanner">
+                                    <img src="${
+                                      product.images[1]
+                                        ? product.images[1]
+                                        : product.images[0]
+                                    }"  alt="${product.title}" loading="lazy">
+                                </div>
+                                <div class="product">
+                                    <div class="productImage">
+                                    <div class="productThumbnail">
+                                        <img src="${product.thumbnail}"  alt="${
+              product.title
+            }" loading="lazy">
+                                    </div>
+                                    <div class="actionButtons">
+                                            <button onclick={cartAction()} class="cartBtn">Add to cart</button>
+                                            <button onClick={openModel()} class="buyBtn">Buy Now</button>
+                                        </div>
+                                </div>
+                                    <div class="productInfoWrapper">
+                                        <h3 class="productTitle">${
+                                          product.title
+                                        }</h3>
+                                        <p class="productDescription">${
+                                          product.description
+                                        }</p>
+
+                                        <p class="productValue">$${
+                                          product.price
+                                        }</p>
+
+                                        ${tagsHtml}
+                                    </div>
+                                    <div>
+                                    </div>
+                                </div>
+
+                                
+                            </div>
+                        `;
+            productGrid.append(productHtml); // Add product to grid
+          },
+          error: function () {
+            alert("Error fetching products.");
+          },
+        });
+      }
+    </script>
+  </body>
+</html>

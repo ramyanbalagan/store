@@ -1,0 +1,142 @@
+* {
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+
+  margin: 0;
+  padding: 0;
+}
+
+.product {
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+}
+
+.productBanner {
+  flex: 1;
+  min-height: 400px;
+  height: 400px;
+  width: 100%;
+  background-color: #e0e0e0;
+}
+
+.productBanner img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.productImage {
+  transform: translateY(-100px);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin: 20px;
+}
+
+.productThumbnail {
+  min-height: 450px;
+  height: 450px;
+  width: 400px;
+  background-color: white;
+  border: 1px solid #e0e0e0;
+}
+
+.productThumbnail img {
+  height: 100%;
+  width: 100%;
+  object-fit: contain;
+}
+
+.productInfoWrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  flex: 1;
+  padding: 10px;
+}
+
+.productTitle {
+  font-size: 32px;
+  font-weight: 600;
+}
+
+.productDescription {
+  font-size: 16px;
+  line-height: normal;
+  max-width: 50%;
+}
+
+.actionButtons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.buyBtn {
+  background-color: black;
+  padding: 10px;
+  border: none;
+  color: white;
+  font-size: 16px;
+  width: 150px;
+  font-weight: 600;
+  flex: 1;
+}
+
+.buyBtn:hover {
+  background-color: orangered;
+}
+
+.cartBtn {
+  background-color: rgb(212, 212, 212);
+  padding: 10px;
+  border: none;
+  color: black;
+  font-size: 16px;
+  width: 150px;
+  font-weight: 500;
+  flex: 1;
+}
+
+.cartBtn:hover {
+  background-color: #aaaaaa;
+}
+
+.tags {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.tag {
+  padding: 8px;
+  background-color: #e0e0e0;
+  border-radius: 5px;
+  color: black;
+  font-size: 12px;
+}
+
+.tagTitle {
+  font-size: 16px;
+  font-weight: 600px;
+}
+
+.skeletonBanner {
+  min-height: 400px;
+  height: 400px;
+  width: 100%;
+  height: 400px;
+  background-color: #e0e0e0;
+}
+
+.skeletonImg {
+  min-height: 450px;
+  height: 450px;
+  width: 400px;
+  margin: 20px;
+  transform: translateY(-100px);
+  background-color: white;
+  border: 1px solid #e0e0e0;
+}

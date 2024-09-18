@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Random Store</title>
+    <link rel="stylesheet" href="./css/index.css" />
+    <!-- Include jQuery from a CDN -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  </head>
+  <body>
+    <nav>
+      <h1>Random Store</h1>
+      <div class="nav-links">
+        <section class="input-container"></section>
+          <input placeholder="Search Random Products" class="input" />
+        </section>
+        <ul>
+          <li><a href="#">Home</a></li>
+          <li><a href="#">Products</a></li>
+          <li><a href="#">Cart</a></li>
+        </ul>
+      </div>
+    </nav>
+    <header>
+      <div class="banner-title">
+        <h1>Premium Collections</h1>
+        <p>Get Your Products Now</p>
+      </div>
+      <img src="./assets/fashion.jpg" class="banner" loading="lazy"/>
+    </header>
+
+    <section class="products-list">
+      <!-- <h2>Products</h2> -->
+      <div class="product-grid" id="product-grid"></div>
+    </section>
+
+    <footer>
+      <div class="footer-wrapper">
+        <div class="footer-title">
+          <h5>Random Store</h5>
+          <p>Get your products now!</p>
+        </div>
+        <div class="footer-data">
+          <div class="footer-links">
+            <span>About</span>
+            <span>On Sale</span>
+            <span>Premium</span>
+            <span>All Products</span>
+          </div>
+          <div class="footer-links">
+            <span>Fruits</span>
+            <span>Mobiles</span>
+            <span>Beauty</span>
+            <span>Electronics</span>
+          </div>
+          <div class="footer-links">
+            <span>Instagram</span>
+            <span>Youtube</span>
+            <span>LinkedIn</span>
+            <span>Whatsapp</span>
+          </div>
+        </div>
+      </div>
+      <p>© 2024 Random Store</p>
+    </footer>
+
+    <script>
+      $(document).ready(function () {
+        // Simulating skeleton loader with 12 dummy items
+        const dummyProducts = new Array(12).fill(null); // Array of 12 dummy elements
+
+        // Append skeleton loaders for each dummy product
+        dummyProducts.forEach(() => {
+          $("#product-grid").append(`
+                    <div class="product">
+                        <div class="skeleton"></div>
+                        <div class="skeleton-text"></div>
+                        <div class="skeleton-text"></div>
+                    </div>
+                `);
+        });
+
+        fetchProducts();
+      });
+
+      function fetchProducts() {
+        $.ajax({
+          url: "https://dummyjson.com/products", // Free API
+          method: "GET",
+          dataType: "json",
+          success: function (data) {
+            const products = data.products;
+            const productGrid = $("#product-grid");
+            productGrid.empty(); // Remove skeletons
+
+            // Loop through products and append to the grid
+            $.each(products, function (index, product) {
+              const productHtml = `
+                            <a href="product.html?id=${
+                              product.id
+                            }" target="_blank" class="product">
+                                <div class="productImgWrapper">
+                                    <img src="${product.thumbnail}" alt="${
+                product.title
+              }" loading="lazy">
+                                </div>
+                                <div class="productInfoWrapper">
+                                    ${
+                                      product.brand
+                                        ? `<h6 class="brand">${product.brand}</h6>`
+                                        : `<h6 class="brand"></h6>`
+                                    }
+                                    <h3 class="productTitle">${
+                                      product.title
+                                    }</h3>
+                                    <p class="productValue">$${
+                                      product.price
+                                    }</p>
+                                </div>
+                            </a>
+                        `;
+              productGrid.append(productHtml); // Add product to grid
+            });
+          },
+          error: function () {
+            alert("Error fetching products.");
+          },
+        });
+      }
+    </script>
+  </body>
+</html>
