@@ -5,10 +5,13 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Random Store</title>
     <link rel="stylesheet" href="./css/index.css" />
-    <!-- Include jQuery from a CDN -->
+    <link rel="stylesheet" href="./css/footer.css" />
+    <link rel="stylesheet" href="./css/navbar.css" />
+
     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
   </head>
   <body>
+    
     <nav>
       <h1>Random Store</h1>
       <div class="nav-links">
@@ -17,25 +20,58 @@
         </section>
         <ul>
           <li><a href="#">Home</a></li>
-          <li><a href="#">Products</a></li>
-          <li><a href="#">Cart</a></li>
+          <li><a href="#products">Products</a></li>
+          <li><a href="#footer">About</a></li>
         </ul>
       </div>
     </nav>
-    <header>
-      <div class="banner-title">
-        <h1>Premium Collections</h1>
-        <p>Get Your Products Now</p>
-      </div>
-      <img src="./assets/fashion.jpg" class="banner" loading="lazy"/>
-    </header>
 
-    <section class="products-list">
-      <!-- <h2>Products</h2> -->
+
+    <div class="carousel">
+      <div class="carousel-slides">
+        <div class="slide active">
+          <div class="slide-a-data">
+            <h2>Beauty Products on sale!</h2>
+            <div class="slide-a-desc">
+              <div class="dot"></div>
+              <span>Live now</span>
+            </div>
+          </div>
+          <img src="./assets/m1.jpg" alt="Slide 1">
+        </div>
+        <div class="slide">
+          <img src="./assets/f1.jpg" alt="Slide 2">
+        </div>
+        <div class="slide">
+          <img src="./assets/m2.jpg" alt="Slide 3">
+        </div>
+      </div>
+
+    <!-- Controls for navigation -->
+    <div class="prev actionBtn">&lt;</div>
+    <div class="next actionBtn">&gt;</div>
+  </div>
+
+
+    <section class="trending-container">
+      <div class="card-container">
+        <img src="./assets/f2.jpg" loading="lazy" class="card-img"/>
+      </div>
+      <div class="card-container">
+         <img src="./assets/f3.jpg" loading="lazy" class="card-img"/>
+      </div>
+      <div class="card-container">
+        <img src="./assets/m3.jpg" loading="lazy" class="card-img"/>
+      </div>
+    </section>
+
+    <section id="products" class="products-list">
+
+      <h2 class="products-caption">Trending Products</h2>
       <div class="product-grid" id="product-grid"></div>
     </section>
 
-    <footer>
+    <footer id="footer">
       <div class="footer-wrapper">
         <div class="footer-title">
           <h5>Random Store</h5>
@@ -84,6 +120,36 @@
         fetchProducts();
       });
 
+      let currentSlide = 0;
+      const slides = document.querySelectorAll('.slide');
+      const totalSlides = slides.length;
+
+      // Function to show next slide
+      function showNextSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide + 1) % totalSlides;
+        slides[currentSlide].classList.add('active');
+      }
+
+      // Function to show previous slide
+      function showPrevSlide() {
+        slides[currentSlide].classList.remove('active');
+        currentSlide = (currentSlide - 1 + totalSlides) % totalSlides;
+        slides[currentSlide].classList.add('active');
+      }
+
+      // Event listeners for next and prev buttons
+      document.querySelector('.next').addEventListener('click', showNextSlide);
+      document.querySelector('.prev').addEventListener('click', showPrevSlide);
+
+      // Automatically move to the next slide every 3 seconds
+      function autoSlide() {
+        setInterval(showNextSlide, 3000); // Change slide every 3 seconds
+      }
+
+      // Start the automatic slide show
+      autoSlide();
+
       function fetchProducts() {
         $.ajax({
           url: "https://dummyjson.com/products", // Free API
@@ -129,5 +195,7 @@
         });
       }
     </script>
+
+
   </body>
 </html>
